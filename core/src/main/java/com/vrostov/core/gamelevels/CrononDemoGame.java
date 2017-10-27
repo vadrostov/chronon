@@ -87,7 +87,7 @@ public class CrononDemoGame extends CrononGameScreen {
 
             for(Entity e:_entities){
                 if (type.get(e.id)==NPC){
-
+                    createBullet(e.id);
                 }
             }
 
