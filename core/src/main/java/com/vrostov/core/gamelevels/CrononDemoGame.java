@@ -3,14 +3,14 @@ package com.vrostov.core.gamelevels;
 import com.vrostov.core.CrononGameScreen;
 import com.vrostov.core.CrononObjectStatBean;
 import com.vrostov.core.gamelevels.system.MoverSystem;
-import playn.core.Image;
-import playn.core.Key;
-import playn.core.Platform;
+import playn.core.*;
 import playn.scene.GroupLayer;
 import playn.scene.ImageLayer;
 import playn.scene.Layer;
+import pythagoras.f.MathUtil;
 import pythagoras.f.Point;
 import react.Signal;
+import react.Slot;
 import tripleplay.entity.Component;
 import tripleplay.entity.*;
 import tripleplay.entity.System;
@@ -25,6 +25,8 @@ public class CrononDemoGame extends CrononGameScreen {
     public final Image npcImage=assets().getImage("/images/enemy.png");
     public final Image mainPersImage=assets().getImage("/images/mainpers.png");
     public final Image enemyBulletImage=assets().getImage("/images/enemybullet.png");
+    public final Image friendlyBulletImage=assets().getImage("/images/enemybullet.png");
+
     Entity mainPers;
     public CrononDemoGame(Platform plat) {
         super(plat);
@@ -36,7 +38,7 @@ public class CrononDemoGame extends CrononGameScreen {
         Size (int size) { this.size = size; }
     }
 
-    class DemoWorld extends World{
+    public class DemoWorld extends World{
         public final GroupLayer stage;
 
         public final float swidth, sheight;
@@ -45,6 +47,9 @@ public class CrononDemoGame extends CrononGameScreen {
         public static final int MAINPERS=(1<<0);
         public static final int NPC=(1<<1);
         public static final int ENEMY_BULLET=(1<<2);
+        public static final int FRIENDLY_BULLET=(2<<1);
+
+
 
         public final Component.IMask type = new Component.IMask(this);
         public final Component.XY opos = new Component.XY(this);
@@ -67,12 +72,104 @@ public class CrononDemoGame extends CrononGameScreen {
 
         public int now;
 
+        System controls = new System(this,0) {
+
+
+            {
+
+                keyDown.connect(new Slot<Key>() {
+
+                    @Override
+                    public void onEmit(Key key) {
+
+                        int id=mainPers.id;
+                        switch (key){
+                            case W: vel.set(id, vel.getX(id), -1);
+                            case A: vel.set(id, -1, vel.getY(id));
+                            case S:vel.set(id, vel.getX(id), 1);
+                            case D:vel.set(id, 1, vel.getY(id));
+                            case LEFT: createFriendlyBullet(id, pos.getX(id), pos.getY(id), -1,0);
+                            case UP:  createFriendlyBullet(mainPers.id, pos.getX(mainPers.id), pos.getY(mainPers.id), 0,-1);
+                            case DOWN: createFriendlyBullet(mainPers.id, pos.getX(mainPers.id), pos.getY(mainPers.id), 0,1);
+                            case RIGHT: createFriendlyBullet(mainPers.id, pos.getX(mainPers.id), pos.getY(mainPers.id), 1,0);
+                            default: break;
+                        }
+                    }
+                });
+
+                keyUp.connect(new Slot<Key>() {
+
+                    @Override
+                    public void onEmit(Key key) {
+                        int id=mainPers.id;
+                        switch (key){
+                            case W: vel.set(id, vel.getX(id),0);
+                            case A:vel.set(id, 0,vel.getY(id));
+                            case S:vel.set(id, vel.getX(id),0);
+                            case D:vel.set(id, 0,vel.getY(id));
+                        }
+                    }
+                });
+            }
+
+            @Override
+            protected boolean isInterested(Entity entity) {
+                return type.get(entity.id)==MAINPERS;
+            }
+        };
+
+        System spritePainterSystem = new System(this,0) {
+
+            @Override
+            protected void paint(Clock clock, Entities entities) {
+                super.paint(clock, entities);
+                float alpha=clock.alpha;
+                Point op=_oldPos, p=_pos;
+                for (int ii=0; ii<entities.size();ii++){
+
+                    int entId=entities.get(ii);
+                    pos.get(entId, p);
+                    opos.set(entId,p);
+                    sprite.get(entId).setTranslation(MathUtil.lerp(op.x, p.x, alpha), MathUtil.lerp(op.y, p.y, alpha));
+                }
+
+
+            }
+
+            @Override
+            protected void wasAdded(Entity entity) {
+                super.wasAdded(entity);
+                stage.addAt(sprite.get(entity.id), pos.getX(entity.id), pos.getY(entity.id));
+            }
+
+            @Override
+            protected void wasRemoved(Entity entity, int index) {
+                super.wasRemoved(entity, index);
+                stage.remove(sprite.get(entity.id));
+            }
+
+            @Override
+            protected boolean isInterested(Entity entity) {
+                return (entity.has(sprite)&&entity.has(opos)&&entity.has(pos));
+            }
+
+            protected final Point _oldPos = new Point(), _pos = new Point();
+        };
+
 
         public DemoWorld(GroupLayer stage, float swidth, float sheight) {
             this.stage = stage;
             this.swidth = swidth;
             this.sheight = sheight;
             moverSystem=new MoverSystem(this,0);
+            closeOnHide(input().keyboardEvents.connect(new Keyboard.KeySlot() {
+                @Override
+                public void onEmit(Keyboard.KeyEvent event) {
+
+                    (event.down?keyDown:keyUp).emit(event.key);
+                }
+            }));
+
 
         }
 
@@ -147,6 +244,23 @@ public class CrononDemoGame extends CrononGameScreen {
 
             return npc;
 
+
+        }
+
+        public Entity createFriendlyBullet(int mpId, float x, float y, float vx, float vy){
+
+            Entity friendlyBullet=create(true);
+            friendlyBullet.add(type, sprite, opos, pos, vel, radius);
+            int id=friendlyBullet.id;
+            ImageLayer layer=new ImageLayer(friendlyBulletImage);
+            type.set(id, FRIENDLY_BULLET);
+            sprite.set(id, layer);
+            opos.set(id,x,y);
+            pos.set(id,x,y);
+            vel.set(id, vx, vy);
+            radius.set(id,5);
+
+            return friendlyBullet;
 
         }
 
