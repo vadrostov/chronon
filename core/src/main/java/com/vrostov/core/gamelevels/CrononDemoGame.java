@@ -14,8 +14,12 @@ import react.Slot;
 import tripleplay.entity.Component;
 import tripleplay.entity.*;
 import tripleplay.entity.System;
+import tripleplay.ui.Group;
+import tripleplay.ui.Root;
 import tripleplay.util.Randoms;
 import tripleplay.game.*;
+import tripleplay.util.StyledText;
+import tripleplay.util.TextStyle;
 
 import java.util.Random;
 
@@ -28,9 +32,6 @@ public class CrononDemoGame extends CrononGameScreen {
     public final Image friendlyBulletImage=assets().getImage("/images/enemybullet.png");
 
     Entity mainPers;
-    public CrononDemoGame(Platform plat) {
-        super(plat);
-    }
 
     enum Size {
         TINY(20), SMALL(40), MEDIUM(60), LARGE(80);
@@ -71,6 +72,15 @@ public class CrononDemoGame extends CrononGameScreen {
 
 
         public int now;
+
+
+        System mover = new System(this,0) {
+            @Override
+            protected boolean isInterested(Entity entity) {
+                return (entity.has(pos)&&entity.has(opos)&&entity.has(vel));
+            }
+        };
+
 
         System controls = new System(this,0) {
 
@@ -289,6 +299,50 @@ public class CrononDemoGame extends CrononGameScreen {
 
         }
 
+        public void setMessage (String text) {
+            if (_msg != null) _msg.close();
+            if (text != null) {
+                _msg = StyledText.span(graphics(), text, MSG_STYLE).toLayer();
+                _msg.setDepth(1);
+                stage.addAt(_msg, (swidth-_msg.width())/2, (sheight-_msg.height())/2);
+            }
+        }
 
+        public void attract () {
+            setMessage("Press 's' to start.");
+            /*for (int ii = 0; ii < 5; ii++) createAsteroid(
+                    Size.LARGE, rando.getFloat(swidth), rando.getFloat(sheight));
+            _wave = -1;*/
+        }
+
+
+        protected ImageLayer _msg;
     }
+
+    @Override
+    public void showTransitionCompleted() {
+        super.showTransitionCompleted();
+        DemoWorld demoWorld=new DemoWorld(layer,size().width(), size().height());
+        closeOnHide(demoWorld.connect(update, paint));
+        demoWorld.attract();
+    }
+
+    @Override
+    protected String title() {
+        return null;
+    }
+
+    @Override
+    protected String name() {
+        return null;
+    }
+
+    @Override
+    protected Group createIface(Root root) {
+        return null;
+    }
+
+
+    protected static final TextStyle MSG_STYLE = TextStyle.DEFAULT.
+            withTextColor(0xFFFFFFFF).withFont(new Font("Helvetica", 24));
 }

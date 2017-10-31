@@ -19,12 +19,8 @@ public class Cronon extends SceneGame {
     super(plat, 33); // update our "simulation" 33ms (30 times per second)
     game=this;
     new Pointer(plat, rootLayer, true);
-    screens.push(new CrononMenuScreen(plat));
+    screens.push(new CrononMenuScreen(screens));
     // create and add background image layer
-    Image bgImage = plat.assets().getImage("images/bg.png");
-    ImageLayer bgLayer = new ImageLayer(bgImage);
-    // scale the background to fill the screen
-    bgLayer.setSize(plat.graphics().viewSize);
-    rootLayer.add(bgLayer);
+
   }
 }
