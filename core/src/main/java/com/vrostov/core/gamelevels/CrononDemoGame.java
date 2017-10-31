@@ -1,6 +1,7 @@
 package com.vrostov.core.gamelevels;
 
 import com.vrostov.core.CrononGameScreen;
+import com.vrostov.core.CrononObjectStatBean;
 import com.vrostov.core.gamelevels.system.MoverSystem;
 import playn.core.*;
 import playn.scene.GroupLayer;
@@ -54,6 +55,7 @@ public class CrononDemoGame extends CrononGameScreen {
         public final Component.XY opos = new Component.XY(this);
         public final Component.XY pos = new Component.XY(this);
         public final Component.XY vel = new Component.XY(this); // pixels/ms
+        public final Component.Generic<CrononObjectStatBean> stats = new Component.Generic<>(this);
         public final Component.Generic<Layer> sprite = new Component.Generic<Layer>(this);
         public final Component.Generic<Size> size = new Component.Generic<Size>(this);
         public final Component.FScalar spin = new Component.FScalar(this); // rads/ms
@@ -62,6 +64,8 @@ public class CrononDemoGame extends CrononGameScreen {
 
         public final Signal<Key> keyDown = Signal.create();
         public final Signal<Key> keyUp = Signal.create();
+
+        int i=0;
 
         System moverSystem;
 
@@ -169,7 +173,7 @@ public class CrononDemoGame extends CrononGameScreen {
 
         }
 
-        public void startGame(int wave){
+        public void startWave(int wave){
             if (wave==0){
                 for (Entity e: this){
                     e.close(); }
@@ -182,10 +186,14 @@ public class CrononDemoGame extends CrononGameScreen {
 
             }
 
-            for(Entity e:_entities){
-                if (type.get(e.id)==NPC){
-                    createBullet(e.id);
+            ++i;
+            if (i>=30) {
+                for (Entity e : _entities) {
+                    if (type.get(e.id) == NPC) {
+                        createBullet(e.id);
+                    }
                 }
+                i=0;
             }
 
 
@@ -196,12 +204,15 @@ public class CrononDemoGame extends CrononGameScreen {
 
         public Entity createMain(float x, float y){
             mainPers=create(true);
-            mainPers.add(type, sprite, opos, pos, vel, spin, radius);
+            mainPers.add(type, sprite, opos, pos, vel, spin, radius, stats);
             float ah=mainPersImage.height();
             ImageLayer imageLayer=new ImageLayer(mainPersImage);
             layer.setOrigin(ah/2, ah/2);
 
+            CrononObjectStatBean statBean=new CrononObjectStatBean.Builder(ah/2).attackSpeed(1).bulletSize(5).speed(1).build();
+
             int id=mainPers.id;
+            stats.set(id, statBean);
             sprite.set(id, layer);
             type.set(id, MAINPERS);
             pos.set(id, x, y);
@@ -217,8 +228,12 @@ public class CrononDemoGame extends CrononGameScreen {
             npc.add(type, sprite, opos, pos, vel, spin, radius);
             float ah=npcImage.height();
             int iidx=rando.getInt(4);
+            int rand=rando.getInRange(6,10);
+
+            CrononObjectStatBean statBean=new CrononObjectStatBean.Builder(ah/2).bulletSize(5).attackSpeed(rand*0.1).build();
 
             int id=npc.id;
+            stats.set(id, statBean);
             ImageLayer npcLayer=new ImageLayer(npcImage.region(iidx*ah, 0, ah, ah));
             type.set(id,NPC);
             sprite.set(id, npcLayer);
@@ -257,7 +272,10 @@ public class CrononDemoGame extends CrononGameScreen {
             float ah=enemyBulletImage.height();
             ImageLayer layer = new ImageLayer(enemyBulletImage);
             int id=enemyBullet.id;
+
+            CrononObjectStatBean statBean=new CrononObjectStatBean.Builder(5).speed(stats.get(npcId).getBulletspeed()).build();
             type.set(id, ENEMY_BULLET);
+            stats.set(id,statBean);
             sprite.set(id, layer);
             opos.set(id, pos.getX(npcId), pos.getY(npcId));
             pos.set(id, pos.getX(npcId), pos.getY(npcId));
