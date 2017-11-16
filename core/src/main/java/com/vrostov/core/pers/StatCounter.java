@@ -9,6 +9,7 @@ import com.vrostov.core.weapons.WeaponImproovements;
 import com.vrostov.core.weapons.decorators.WeaponBuffDecorator;
 import com.vrostov.core.weapons.decorators.WeaponGemDecorator;
 import com.vrostov.core.weapons.decorators.WeaponRuneDecorator;
+import com.vrostov.core.weapons.dimenisions.DamageDim;
 
 public class StatCounter {
 
@@ -16,16 +17,16 @@ public class StatCounter {
     public static void main(String[] args){
 
 
-        Weapon weapon=new RangeWeapon(12,3.3,4.5, new WeaponImproovements(2));
+        Weapon weapon=new RangeWeapon(12,3.3,4.5,new DamageDim(12,15), new DamageDim(0,0), new WeaponImproovements(2));
         WeaponGem[]gems=weapon.getWeaponImproovements().getGems();
          gems[0]=new WeaponGem(12,0,3.0);
         gems[1]=new WeaponGem(0,3.4,0.0);
-        weapon.getWeaponImproovements().setRune(new WeaponRune(1,0,3.0));
-        weapon.getWeaponImproovements().setBuff(new WeaponBuff(5,3,2.0));
+        weapon.getWeaponImproovements().setRune(new WeaponRune(new DamageDim(11,16)));
+        weapon.getWeaponImproovements().setBuff(new WeaponBuff(new DamageDim(3,5)));
 
         weapon=statsDecorate(weapon);
         System.out.println(weapon.description());
-        System.out.println("Скорость атаки:"+weapon.attackSpeed()+", Скорость снаряда: "+weapon.bulletSpeed()+", Радиус атаки: "+weapon.range());
+        System.out.println("Урон: "+weapon.damage()+", Урон от стихий: "+weapon.elemDamage()+", Скорость атаки:"+weapon.attackSpeed()+", Скорость снаряда: "+weapon.bulletSpeed()+", Радиус атаки: "+weapon.range());
 
     }
 

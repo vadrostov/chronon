@@ -3,6 +3,7 @@ package com.vrostov.core.weapons.decorators;
 import com.vrostov.core.improvements.gems.WeaponGem;
 import com.vrostov.core.weapons.Weapon;
 import com.vrostov.core.weapons.WeaponImproovements;
+import com.vrostov.core.weapons.dimenisions.DamageDim;
 
 public class WeaponGemDecorator extends  WeaponDecorator {
 
@@ -34,6 +35,16 @@ public class WeaponGemDecorator extends  WeaponDecorator {
     @Override
     public String description() {
         return weapon.description()+"\n +Камень";
+    }
+
+    @Override
+    public DamageDim damage() {
+        return weapon.damage();
+    }
+
+    @Override
+    public DamageDim elemDamage() {
+        return weapon.elemDamage();
     }
 
     @Override

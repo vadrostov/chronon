@@ -1,40 +1,20 @@
 package com.vrostov.core.improvements.buffs;
 
+import com.vrostov.core.weapons.dimenisions.DamageDim;
+
 public class WeaponBuff {
 
-    private double range;
-    private double attackspeed;
-    private double bulletSpeed;
+    DamageDim damage;
 
-
-
-    public WeaponBuff(double range, double attackspeed, double bulletSpeed) {
-        this.range = range;
-        this.attackspeed = attackspeed;
-        this.bulletSpeed = bulletSpeed;
+    public WeaponBuff(DamageDim damage) {
+        this.damage = damage;
     }
 
-    public double getRange() {
-        return range;
+    public DamageDim getDamage() {
+        return damage;
     }
 
-    public void setRange(double range) {
-        this.range = range;
-    }
-
-    public double getAttackspeed() {
-        return attackspeed;
-    }
-
-    public void setAttackspeed(double attackspeed) {
-        this.attackspeed = attackspeed;
-    }
-
-    public double getBulletSpeed() {
-        return bulletSpeed;
-    }
-
-    public void setBulletSpeed(double bulletSpeed) {
-        this.bulletSpeed = bulletSpeed;
+    public void setDamage(DamageDim damage) {
+        this.damage = damage;
     }
 }

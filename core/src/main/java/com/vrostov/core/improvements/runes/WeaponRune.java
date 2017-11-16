@@ -1,40 +1,21 @@
 package com.vrostov.core.improvements.runes;
 
+import com.vrostov.core.weapons.dimenisions.DamageDim;
+
 public class WeaponRune {
 
-    private double range;
-    private double attackspeed;
-    private double bulletSpeed;
 
+    private DamageDim elemDamage;
 
-
-    public WeaponRune(double range, double attackspeed, double bulletSpeed) {
-        this.range = range;
-        this.attackspeed = attackspeed;
-        this.bulletSpeed = bulletSpeed;
+    public WeaponRune(DamageDim elemDamage) {
+        this.elemDamage = elemDamage;
     }
 
-    public double getRange() {
-        return range;
+    public DamageDim getElemDamage() {
+        return elemDamage;
     }
 
-    public void setRange(double range) {
-        this.range = range;
-    }
-
-    public double getAttackspeed() {
-        return attackspeed;
-    }
-
-    public void setAttackspeed(double attackspeed) {
-        this.attackspeed = attackspeed;
-    }
-
-    public double getBulletSpeed() {
-        return bulletSpeed;
-    }
-
-    public void setBulletSpeed(double bulletSpeed) {
-        this.bulletSpeed = bulletSpeed;
+    public void setElemDamage(DamageDim elemDamage) {
+        this.elemDamage = elemDamage;
     }
 }
