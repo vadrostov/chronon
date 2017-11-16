@@ -28,7 +28,7 @@ public class CrononMenuScreen extends ScreenStack.UIScreen {
 
     @Override
     public Game game() {
-        return null;
+        return Cronon.game;
     }
 
     @Override

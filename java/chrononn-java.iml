@@ -10,14 +10,14 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="chrononn-core" />
-    <orderEntry type="library" name="Maven: io.playn:playn-scene:2.0" level="project" />
-    <orderEntry type="library" name="Maven: io.playn:playn-core:2.0" level="project" />
+    <orderEntry type="library" name="Maven: io.playn:playn-scene:2.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: io.playn:playn-core:2.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: com.samskivert:pythagoras:1.4.3" level="project" />
-    <orderEntry type="library" name="Maven: com.threerings:react:1.5.3" level="project" />
+    <orderEntry type="library" name="Maven: com.threerings:react:1.5.4" level="project" />
     <orderEntry type="library" name="Maven: com.threerings:tripleplay:2.0.1" level="project" />
     <orderEntry type="module" module-name="chrononn-assets" />
-    <orderEntry type="library" name="Maven: io.playn:playn-java-lwjgl:2.0" level="project" />
-    <orderEntry type="library" name="Maven: io.playn:playn-java-base:2.0" level="project" />
+    <orderEntry type="library" name="Maven: io.playn:playn-java-lwjgl:2.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: io.playn:playn-java-base:2.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: com.googlecode.soundlibs:mp3spi:1.9.5-1" level="project" />
     <orderEntry type="library" name="Maven: com.googlecode.soundlibs:jlayer:1.0.1-1" level="project" />
     <orderEntry type="library" name="Maven: com.googlecode.soundlibs:tritonus-share:0.3.7-1" level="project" />

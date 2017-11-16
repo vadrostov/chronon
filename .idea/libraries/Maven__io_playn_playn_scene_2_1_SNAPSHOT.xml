@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: io.playn:playn-scene:2.1-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/io/playn/playn-scene/2.1-SNAPSHOT/playn-scene-2.1-20171009.014031-14.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/io/playn/playn-scene/2.1-SNAPSHOT/playn-scene-2.1-20171009.014031-14-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/io/playn/playn-scene/2.1-SNAPSHOT/playn-scene-2.1-20171009.014031-14-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
