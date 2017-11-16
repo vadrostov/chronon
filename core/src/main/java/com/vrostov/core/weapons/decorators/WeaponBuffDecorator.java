@@ -1,39 +1,39 @@
 package com.vrostov.core.weapons.decorators;
 
-import com.vrostov.core.improvements.gems.WeaponGem;
+import com.vrostov.core.improvements.buffs.WeaponBuff;
 import com.vrostov.core.weapons.Weapon;
 import com.vrostov.core.weapons.WeaponImproovements;
 
-public class WeaponGemDecorator extends  WeaponDecorator {
+public class WeaponBuffDecorator extends WeaponDecorator {
 
     Weapon weapon;
-    WeaponGem gem;
+    WeaponBuff buff;
     WeaponImproovements weaponImproovements;
 
-    public WeaponGemDecorator(Weapon weapon, WeaponGem weaponGem){
-        this.weapon=weapon;
-        this.gem=weaponGem;
+    public WeaponBuffDecorator(Weapon weapon, WeaponBuff buff) {
+        this.weapon = weapon;
+        this.buff = buff;
         this.weaponImproovements=weapon.getWeaponImproovements();
     }
 
     @Override
     public double range() {
-        return gem.getRange()+weapon.range();
+        return weapon.range()+buff.getRange();
     }
 
     @Override
     public double attackSpeed() {
-        return gem.getAttackspeed()+weapon.attackSpeed();
+        return weapon.attackSpeed()+buff.getAttackspeed();
     }
 
     @Override
     public double bulletSpeed() {
-        return gem.getBulletSpeed()+weapon.bulletSpeed();
+        return weapon.bulletSpeed()+buff.getBulletSpeed();
     }
 
     @Override
     public String description() {
-        return weapon.description()+"\n +Камень";
+        return weapon.description()+"\n +Бафф";
     }
 
     @Override

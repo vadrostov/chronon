@@ -1,6 +1,6 @@
-package com.vrostov.core.improvements.gems;
+package com.vrostov.core.improvements.runes;
 
-public class WeaponGem {
+public class WeaponRune {
 
     private double range;
     private double attackspeed;
@@ -8,7 +8,7 @@ public class WeaponGem {
 
 
 
-    public WeaponGem(double range, double attackspeed, double bulletSpeed) {
+    public WeaponRune(double range, double attackspeed, double bulletSpeed) {
         this.range = range;
         this.attackspeed = attackspeed;
         this.bulletSpeed = bulletSpeed;
