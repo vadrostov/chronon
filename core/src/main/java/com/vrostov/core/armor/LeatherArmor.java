@@ -14,7 +14,7 @@ public class LeatherArmor implements Armor {
     private ArmorImproovements improovements;
 
     private String description;
-public static class Builder{
+    public static class Builder{
     private int armorclass;
     private int weight;
     private int fireresist=0;

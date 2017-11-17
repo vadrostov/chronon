@@ -43,31 +43,13 @@ public class CrononMenuScreen extends ScreenStack.UIScreen {
             }
         });
         root.add(new Label("Хроно")).addStyles(Style.FONT.is(CrononGameScreen.TITLE_FONT));
-        Group grid = new Group(new TableLayout(
-                TableLayout.COL.alignRight(),
-                TableLayout.COL.stretch(),
-                TableLayout.COL.stretch(),
-                TableLayout.COL.stretch()).gaps(10, 10));
-        root.add(grid);
 
-
-
-        for (int ii = 0; ii < _screens.length; ii++) {
-            if (ii%3 == 0) grid.add(new Label(_rlabels[ii/3]));
-            final CrononGameScreen screen = _screens[ii];
-            if (screen == null) {
-                grid.add(new Shim(1, 1));
-            } else {
-                grid.add(new Button(screen.name()).onClick(new UnitSlot() { public void onEmit () {
-                    _stack.push(screen);
-                    screen.back.clicked().connect(new UnitSlot() { public void onEmit () {
-                        _stack.remove(screen);
-                    }});
-                }}));
-
-
+        root.add(new Button("Game").onClick(new UnitSlot() {
+            @Override
+            public void onEmit() {
+                _stack.push(new CrononDemoGame());
             }
-        }
+        }));
 
     }
 
