@@ -52,4 +52,6 @@ public class WeaponBuffDecorator extends WeaponDecorator {
     public WeaponImproovements getWeaponImproovements() {
         return weaponImproovements;
     }
+
+
 }
