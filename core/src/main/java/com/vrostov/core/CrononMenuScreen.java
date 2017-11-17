@@ -44,7 +44,7 @@ public class CrononMenuScreen extends ScreenStack.UIScreen {
         });
         root.add(new Label("Хроно")).addStyles(Style.FONT.is(CrononGameScreen.TITLE_FONT));
 
-        root.add(new Button("Game").onClick(new UnitSlot() {
+        root.add(new Button("Play").onClick(new UnitSlot() {
             @Override
             public void onEmit() {
                 _stack.push(new CrononDemoGame());
