@@ -30,7 +30,7 @@ public class StatCounter {
 
         Weapon weapon=new RangeWeapon(12,3.3,4.5,new DamageDim(12,15), new DamageDim(0,0), new WeaponImproovements(2));
         WeaponGem[]gems=weapon.getWeaponImproovements().getGems();
-         gems[0]=new WeaponGem(12,0,3.0);
+        gems[0]=new WeaponGem(12,0,3.0);
         gems[1]=new WeaponGem(0,3.4,0.0);
         weapon.getWeaponImproovements().setRune(new WeaponRune(new DamageDim(11,16)));
         weapon.getWeaponImproovements().setBuff(new WeaponBuff(new DamageDim(3,5)));

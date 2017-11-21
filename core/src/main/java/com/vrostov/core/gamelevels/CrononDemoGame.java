@@ -7,6 +7,7 @@ import playn.core.*;
 import playn.scene.GroupLayer;
 import playn.scene.ImageLayer;
 import playn.scene.Layer;
+import pythagoras.f.Circle;
 import pythagoras.f.MathUtil;
 import pythagoras.f.Point;
 import react.Signal;
@@ -27,9 +28,9 @@ public class CrononDemoGame extends CrononGameScreen {
 
 
     public final Image npcImage=assets().getImage("/images/enemy.png");
-    public final Image mainPersImage=assets().getImage("/images/mainpers.png");
-    public final Image enemyBulletImage=assets().getImage("/images/enemybullet.png");
-    public final Image friendlyBulletImage=assets().getImage("/images/enemybullet.png");
+    public final Image mainPersImage=assets().getImage("/images/niga.png");
+    public final Image enemyBulletImage=assets().getImage("/images/bullet.png");
+    public final Image friendlyBulletImage=assets().getImage("/images/friendlybullet.png");
 
     Entity mainPers;
 
@@ -75,6 +76,13 @@ public class CrononDemoGame extends CrononGameScreen {
 
 
         System mover = new System(this,0) {
+
+
+            @Override
+            protected void update(Clock clock, Entities entities) {
+                super.update(clock, entities);
+            }
+
             @Override
             protected boolean isInterested(Entity entity) {
                 return (entity.has(pos)&&entity.has(opos)&&entity.has(vel));
@@ -126,6 +134,50 @@ public class CrononDemoGame extends CrononGameScreen {
             protected boolean isInterested(Entity entity) {
                 return type.get(entity.id)==MAINPERS;
             }
+        };
+
+        System collider=new System(this,0) {
+
+            @Override
+            protected void update(Clock clock, Entities entities) {
+                for (int i=0;i<entities.size();i++){
+                    int eid1=entities.get(i);
+                    Entity e1=world.entity(eid1);
+                    Circle c1=new Circle(pos.getX(eid1), pos.getY(eid1), radius.get(eid1));
+                    for (int j=i+1; j<entities.size();j++){
+                        int eid2=entities.get(j);
+                        Entity e2=world.entity(eid2);
+                        Circle c2=new Circle(pos.getX(eid2), pos.getY(eid2), radius.get(eid2));
+                        if(c2.intersects(c1)){
+                            collide(e1,e2);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            protected boolean isInterested(Entity entity) {
+                return entity.has(pos)&&entity.has(radius);
+            }
+
+
+
+            public void collide(Entity e1, Entity e2){
+
+                switch (e1.id | type.get(e2.id)){
+                    case MAIN_EBULLET:
+
+                    case MAIN_ENEMY:
+
+                    case ENEMY_FBULLET:
+
+                }
+            }
+
+
+            protected static final int MAIN_EBULLET=MAINPERS | ENEMY_BULLET;
+            protected static final int MAIN_ENEMY=MAINPERS | NPC;
+            protected  static final int ENEMY_FBULLET=NPC | FRIENDLY_BULLET;
         };
 
         System spritePainterSystem = new System(this,0) {
@@ -318,6 +370,7 @@ public class CrononDemoGame extends CrononGameScreen {
 
         protected ImageLayer _msg;
     }
+
 
     @Override
     public void showTransitionCompleted() {
