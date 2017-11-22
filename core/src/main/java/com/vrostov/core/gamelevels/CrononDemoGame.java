@@ -80,7 +80,14 @@ public class CrononDemoGame extends CrononGameScreen {
 
             @Override
             protected void update(Clock clock, Entities entities) {
-                super.update(clock, entities);
+                for (int i=0;i<entities.size();i++){
+                    int ide=entities.get(i);
+                    float posx=pos.getX(ide);
+                    float posy=pos.getY(ide);
+                    opos.set(ide, posx,posy);
+                    pos.set(ide, posx+ vel.getX(ide), posy+vel.getY(ide));
+                }
+
             }
 
             @Override
